@@ -4,34 +4,34 @@ import { PropsInputTask } from "@/type";
 import { useEffect, useState } from "react";
 
 
-export default function Task({ children, pomodoroNumber, completedTask, id, allProps, setProps, setIsNewTask, isNewTask, setCurrentCycles, currentCycles }:PropsInputTask){
+export default function Task({ children, pomodoroNumber, completedTask, id, allTasks, setAllTasks, setIsNewTask, isNewTask, setCurrentCycles, currentCycles }:PropsInputTask){
 
     let idProcurado = id;
 
 
     useEffect(() =>{ 
 
-            if(allProps[0].id === idProcurado){
+            if(allTasks[0].id === idProcurado){
                 if(currentCycles === pomodoroNumber){
                     setIsNewTask(true)
                         // Item que você deseja remover
-                    let itemParaRemover = id;
+                    let idItemParaRemover = id;
 
                     // Remove o item usando filter
-                    const listaDeItens = allProps.filter(item => item.id !== itemParaRemover);
+                    const arrayTasksNotCompleted = allTasks.filter(item => item.id !== idItemParaRemover);
                     
                     // Armazena item concluído
-                    const saveCompletedTask = allProps.filter(item => item.id === itemParaRemover);
+                    const CompletedTaskArray = allTasks.filter(item => item.id === idItemParaRemover);
                     
-                    setProps(listaDeItens)
-                    completedTask(saveCompletedTask);
+                    setAllTasks(arrayTasksNotCompleted)
+                    completedTask(CompletedTaskArray);
                     return setCurrentCycles(0);
 
                 } else if(!isNewTask){
                     setCurrentCycles(currentCycles)
             } 
         }
-    },[currentCycles,setCurrentCycles,allProps,isNewTask,setIsNewTask]);
+    },[currentCycles,setCurrentCycles,allTasks,isNewTask,setIsNewTask]);
 
 
 
@@ -41,7 +41,7 @@ export default function Task({ children, pomodoroNumber, completedTask, id, allP
                 <img src={currentCycles === pomodoroNumber ? "./check_fill.png" : "./check_out.png"} alt="chek outline" width={30} />
                 <p>{children}</p>
             </div>
-             <p>{ allProps[0].id === idProcurado ? currentCycles : 0}/{pomodoroNumber}</p>
+             <p>{ allTasks[0].id === idProcurado ? currentCycles : 0}/{pomodoroNumber}</p>
         </div>
     )
 }

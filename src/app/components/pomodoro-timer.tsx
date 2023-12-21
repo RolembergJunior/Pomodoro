@@ -1,5 +1,5 @@
 'use client'
-import { ArrayPropsTasks, Props } from "@/type";
+import { Props, PropsTasks } from "@/type";
 import '../style.css'
 import { useEffect, useState, useCallback, Children } from "react";
 import { useInterval } from "../hooks/use-interval";
@@ -22,9 +22,9 @@ export default function PomooroTimer(props:Props): JSX.Element {
     const [completedCycles, setCompletedCycles] = useState(0);
     const [fullWorkingTime, setFullWorkingTime] = useState(0);
     const [numberOfPomodoros, setNumberOfPomodoros] =useState(0);
-    const [openInput, setOpenInput] = useState<Boolean>(false);
-    const [allPropsTask, setAllPropsTask] = useState<ArrayPropsTasks[]>([]);
-    const [allTasksCompleted, setAllTasksCompleted] = useState< ArrayPropsTasks[] >([]);
+    const [isOpenInput, setisOpenInput] = useState<Boolean>(false);
+    const [allTasks, setallTasks] = useState<PropsTasks[]>([]);
+    const [allTasksCompleted, setAllTasksCompleted] = useState< PropsTasks[] >([]);
     const [isNewTask, setIsNewTask] = useState<Boolean>(false)
     const [currencyCycles, setCurrencyCycles]  = useState(0)
 
@@ -97,17 +97,17 @@ export default function PomooroTimer(props:Props): JSX.Element {
     configureWorking
     ])
 
-    function handleOnSave( props:ArrayPropsTasks ){  
-        setAllPropsTask([...allPropsTask, props])
+    function handleOnSave( props:PropsTasks ){  
+        setallTasks([...allTasks, props])
 
-        setOpenInput(false)
+        setisOpenInput(false)
     }
 
-    function completedTask(taskCompleted: ArrayPropsTasks[]){
+    function completedTask(taskCompleted: PropsTasks[]){
         setTimeCounting(false);
 
 
-        let concatArrays:ArrayPropsTasks[] = [...allTasksCompleted, ...taskCompleted ]
+        let concatArrays:PropsTasks[] = [...allTasksCompleted, ...taskCompleted ]
 
         setAllTasksCompleted(concatArrays)
 
@@ -126,12 +126,12 @@ export default function PomooroTimer(props:Props): JSX.Element {
             <p>Horas trabalhadas: {secondsToTime(fullWorkingTime)}</p>
             <p>Pomodoros concluídos: {numberOfPomodoros}</p>
             <AddTask 
-                setOpenInput={setOpenInput} 
-                openInput={openInput}
+                setOpenInput={setisOpenInput} 
+                openInput={isOpenInput}
             />
-            { openInput ? <InputTask setCloseInput={setOpenInput}  onSave={handleOnSave} /> : null }
+            { isOpenInput ? <InputTask setCloseInput={setisOpenInput}  onSave={handleOnSave} /> : null }
             <div>
-                { allPropsTask.map( (task, index) => (
+                { allTasks.map( (task, index) => (
                 <Task 
                 key={index} 
                 id={task.id} 
@@ -139,8 +139,8 @@ export default function PomooroTimer(props:Props): JSX.Element {
                 currentCycles={currencyCycles} 
                 setIsNewTask={setIsNewTask} 
                 isNewTask={isNewTask} 
-                setProps={setAllPropsTask} 
-                allProps={allPropsTask} 
+                setAllTasks={setallTasks} 
+                allTasks={allTasks} 
                 completedTask={completedTask} 
                 pomodoroNumber={task.numberPomodoros}>
                     { task.name }

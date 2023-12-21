@@ -6,8 +6,10 @@ export interface Props{
     cycles: number
 }
 
-export  interface ArrayPropsTasks {
-    name: string; id: string; numberPomodoros: number
+export  interface PropsTasks {
+    name: string; 
+    id: string ; 
+    numberPomodoros: number; 
 }
 
 export interface PropsInputTask{
@@ -15,8 +17,8 @@ export interface PropsInputTask{
     pomodoroNumber: number,
     completedTask: Function,
     id:string,
-    allProps: ArrayPropsTasks[],
-    setProps: (e:ArrayPropsTasks[]) => void,
+    allTasks: PropsTasks[],
+    setAllTasks: (e:PropsTasks[]) => void,
     setIsNewTask: (e:boolean) => void,
     isNewTask: Boolean,
     setCurrentCycles: (e:number) => void,
@@ -24,6 +26,6 @@ export interface PropsInputTask{
 }
 
 export interface InputTaskProps{
-    onSave: (e:ArrayPropsTasks) => void,
+    onSave: (e:PropsTasks) => void,
     setCloseInput: (e:boolean) => void
 }
